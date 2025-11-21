@@ -1,9 +1,15 @@
+* {
+    text-decoration: none;
+    list-style: none;
+}
+
 body {
     margin: 0;
     font-family: 'Georgia', serif;
     background: #0f0f0f;
     color: #e6e6e6;
     line-height: 1.6;
+
 }
 
 header {
@@ -71,9 +77,12 @@ h2 {
 
 p {
     margin-bottom: 18px;
-    font-family:'Courier New', Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
 }
-
+#mod {
+    background: #0f0f0f;
+    color: #e6e6e6;
+}
 /* Responsive */
 @media (max-width: 768px) {
     header {

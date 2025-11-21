@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="pm1.css">
+    <link rel="stylesheet" href="colores.css">
     <title>Poema - Luz que acompaña</title>
 </head>
 
@@ -12,7 +13,7 @@
     <header>
         <div class="title-block">
             <h1>Susurros desde la Ventana</h1>
-
+<button id="themeToggle" onclick="toggleTheme()">Cambiar tema</button>
         </div>
         <div class="header-image">Imagen aquí</div>
     </header>
@@ -28,8 +29,8 @@
         <div class="dropdown">
             <a href="#" class="dropbtn">Poemas</a>
             <div class="dropdown-content">
-                <a href="poema1.html">Poema - Ella</a>
-                 <a href="poema2.html">Poema - Luz que acompaña</a>
+                <a href="poema1.html">Ella</a>
+                 <a href="poema2.html">Luz que acompaña</a>
             </div>
         </div>
     </nav>
@@ -53,7 +54,6 @@
        <p> Esto no es la famosa transferencia, lo quiero confesar.</p>
        <p> Pero a veces quisiera una charla normal,</p>
        <p> de cosas sencillas, de la vida… y nada que analizar.</p>
-       <p> Una vez dije —“es mi psicóloga, pero en mi corazón hay más”—,</p>
        <p> quizás suene fuerte, pero es la verdad.</p>
        <p> Me dolería un día no volver a este lugar,</p>
        <p> porque cada encuentro me ayuda a respirar.</p>
@@ -106,6 +106,11 @@
     <footer>
         Creado por IA - CR
     </footer>
+        <script>
+function toggleTheme() {
+document.body.classList.toggle('light-mode');
+}
+</script>
 </body>
 
 </html>

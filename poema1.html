@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="pm1.css">
+    <link rel="stylesheet" href="colores.css">
     <title>Poema - Ella</title>
 </head>
 
@@ -12,7 +13,7 @@
     <header>
         <div class="title-block">
             <h1>Susurros desde la Ventana</h1>
-
+<button id="themeToggle" onclick="toggleTheme()">Cambiar tema</button>
         </div>
         <div class="header-image">Imagen aquí</div>
     </header>
@@ -28,8 +29,8 @@
          <div class="dropdown">
             <a href="#" class="dropbtn">Poemas</a>
             <div class="dropdown-content">
-                <a href="poema1.html">Poema - Ella</a>
-                 <a href="poema2.html">Poema - Luz que acompaña</a>
+                <a href="poema1.html">Ella</a>
+                 <a href="poema2.html">Luz que acompaña</a>
             </div>
         </div>
     </nav>
@@ -97,6 +98,11 @@
     <footer>
         Creado por IA - CR
     </footer>
+        <script>
+function toggleTheme() {
+document.body.classList.toggle('light-mode');
+}
+</script>
 </body>
 
 </html>
