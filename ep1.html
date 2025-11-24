@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pm1.css">
     <link rel="stylesheet" href="colores.css">
+    <link rel="stylesheet" href="comentarios.css">
+    <link rel="stylesheet" href="comentarios2.css">
     <title>Primer Episodio - Esperanza en vida y el miedo al sentimiento</title>
 </head>
 
@@ -156,14 +158,100 @@
         </ul>
     </nav>
 
+  <div class="comentarios-container">
+  <h2>Dejá tu comentario</h2>
+
+  <input id="nombre" placeholder="Tu nombre o alias" />
+
+  <textarea id="comentario" placeholder="Escribí tu comentario aquí"></textarea>
+
+  <button onclick="enviarComentario()">Enviar comentario</button>
+
+  <h3>Comentarios:</h3>
+  <div id="listaComentarios"></div>
+</div>
+
+
+
     <footer>
          Creado por - CR
     </footer>
+
+
         <script>
 function toggleTheme() {
 document.body.classList.toggle('light-mode');
 }
 </script>
+
+<script type="module">
+  // Firebase imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCrcCEgRb2K17TQq2LoEVJhPayHLjF3S_k",
+    authDomain: "susurros-desde-la-ventana.firebaseapp.com",
+    projectId: "susurros-desde-la-ventana",
+    storageBucket: "susurros-desde-la-ventana.firebasestorage.app",
+    messagingSenderId: "56714635794",
+    appId: "1:56714635794:web:474e3c63dfa5dfbc5b06cb",
+    measurementId: "G-NLLJYW55ZR"
+  };
+
+  // Init
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ENVIAR COMENTARIO
+  async function enviarComentario() {
+    const nombre = document.getElementById("nombre").value;
+    const comentario = document.getElementById("comentario").value;
+
+    if (!nombre || !comentario) {
+      alert("Por favor completa ambos campos.");
+      return;
+    }
+
+    await addDoc(collection(db, "comentarios"), {
+      nombre: nombre,
+      comentario: comentario,
+      fecha: new Date().toISOString()
+    });
+
+    document.getElementById("nombre").value = "";
+    document.getElementById("comentario").value = "";
+
+    cargarComentarios();
+  }
+
+  // CARGAR COMENTARIOS
+  async function cargarComentarios() {
+    const contenedor = document.getElementById("listaComentarios");
+    contenedor.innerHTML = "";
+
+    const querySnapshot = await getDocs(collection(db, "comentarios"));
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const div = document.createElement("div");
+      div.className = "comentario";
+      div.innerHTML = `
+        <strong>${data.nombre}</strong><br>
+        <p>${data.comentario}</p>
+        <small>${new Date(data.fecha).toLocaleString()}</small>
+        <hr>
+      `;
+      contenedor.appendChild(div);
+    });
+  }
+
+  // Cargar al entrar
+  cargarComentarios();
+</script>
+
+
+
 </body>
 
 </html>
