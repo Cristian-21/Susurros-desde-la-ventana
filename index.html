@@ -17,9 +17,9 @@
         <div class="title-block">
             <h1>Susurros desde la Ventana</h1>
             <button id="themeToggle" onclick="toggleTheme()">Cambiar tema</button>
-            <p>Textos escritos desde adentro, en días de lluvia y días de ruido.</p>
+            <p>Textos escritos desde adentro, en días de lluvias internas y días de ruido.</p>
         </div>
-        <div class="header-image">Imagen aquí</div>
+        <div class="header-image"> <img src="#" alt="img"> </div>
     </header>
 
     <nav>
@@ -28,14 +28,14 @@
             <a href="#" class="dropbtn">Textos</a>
             <div class="dropdown-content">
                 <a href="ep1.html">Esperanza y Sentimiento</a>
-               
+
             </div>
         </div>
         <div class="dropdown">
             <a href="#" class="dropbtn">Poemas</a>
             <div class="dropdown-content">
                 <a href="poema1.html">Ella</a>
-                 <a href="poema2.html">Luz que acompaña</a>
+                <a href="poema2.html">Luz que acompaña</a>
             </div>
         </div>
     </nav>
@@ -62,101 +62,101 @@
             veces basta con eso, que te escuchen.</p>
     </div>
 
-   <!-- CONTENEDOR DE COMENTARIOS -->
-<div class="comments-container">
-    <h3>Deja tu comentario</h3>
+    <!-- CONTENEDOR DE COMENTARIOS -->
+    <div class="comments-container">
+        <h3>Deja tu comentario</h3>
 
-    <form id="commentForm">
-        <input type="text" id="username" placeholder="Tu nombre o alias" required>
-        <textarea id="comment" placeholder="Escribe tu comentario aquí..." required></textarea>
-        <button type="submit" id="submitComment">Enviar</button>
-    </form>
+        <form id="commentForm">
+            <input type="text" id="username" placeholder="Tu nombre o alias" required>
+            <textarea id="comment" placeholder="Escribe tu comentario aquí..." required></textarea>
+            <button type="submit" id="submitComment">Enviar</button>
+        </form>
 
-    <h4>Comentarios</h4>
-    <div id="commentsList"></div>
-</div>
+        <h4>Comentarios</h4>
+        <div id="commentsList"></div>
+    </div>
 
 
     <footer>
-        Creado por IA - CR
+        Creado por &copy;CR
     </footer>
 
     <script>
-function toggleTheme() {
-document.body.classList.toggle('light-mode');
-}
-</script>
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+        }
+    </script>
 
-<script type="module">
+    <script type="module">
 
-// Importar Firebase desde CDN (ESTO SÍ FUNCIONA EN VERCEL)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        // Importar Firebase desde CDN (ESTO SÍ FUNCIONA EN VERCEL)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Tu config exacta
-const firebaseConfig = {
-    apiKey: "AIzaSyCrcCEgRb2K17TQq2LoEVJhPayHLjF3S_k",
-    authDomain: "susurros-desde-la-ventana.firebaseapp.com",
-    projectId: "susurros-desde-la-ventana",
-    storageBucket: "susurros-desde-la-ventana.firebasestorage.app",
-    messagingSenderId: "56714635794",
-    appId: "1:56714635794:web:474e3c63dfa5dfbc5b06cb",
-    measurementId: "G-NLLJYW55ZR"
-};
+        // Tu config exacta
+        const firebaseConfig = {
+            apiKey: "AIzaSyCrcCEgRb2K17TQq2LoEVJhPayHLjF3S_k",
+            authDomain: "susurros-desde-la-ventana.firebaseapp.com",
+            projectId: "susurros-desde-la-ventana",
+            storageBucket: "susurros-desde-la-ventana.firebasestorage.app",
+            messagingSenderId: "56714635794",
+            appId: "1:56714635794:web:474e3c63dfa5dfbc5b06cb",
+            measurementId: "G-NLLJYW55ZR"
+        };
 
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-// 👇 CORREGIDO: esta es tu colección real
-const commentsRef = collection(db, "ep1");
+        // 👇 CORREGIDO: esta es tu colección real
+        const commentsRef = collection(db, "ep1");
 
-// FORMULARIO
-const form = document.getElementById("commentForm");
+        // FORMULARIO
+        const form = document.getElementById("commentForm");
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-    const name = document.getElementById("username").value.trim();
-    const comment = document.getElementById("comment").value.trim();
+            const name = document.getElementById("username").value.trim();
+            const comment = document.getElementById("comment").value.trim();
 
-    if (!name || !comment) return alert("Completa todos los campos.");
+            if (!name || !comment) return alert("Completa todos los campos.");
 
-    try {
-        await addDoc(commentsRef, {
-            name,
-            comment,
-            time: serverTimestamp()
+            try {
+                await addDoc(commentsRef, {
+                    name,
+                    comment,
+                    time: serverTimestamp()
+                });
+
+                form.reset();
+
+            } catch (error) {
+                console.error("Error guardando comentario: ", error);
+            }
         });
 
-        form.reset();
+        // LISTAR COMENTARIOS EN TIEMPO REAL
+        const commentsList = document.getElementById("commentsList");
 
-    } catch (error) {
-        console.error("Error guardando comentario: ", error);
-    }
-});
+        const q = query(commentsRef, orderBy("time", "desc"));
 
-// LISTAR COMENTARIOS EN TIEMPO REAL
-const commentsList = document.getElementById("commentsList");
+        onSnapshot(q, (snapshot) => {
+            commentsList.innerHTML = "";
 
-const q = query(commentsRef, orderBy("time", "desc"));
-
-onSnapshot(q, (snapshot) => {
-    commentsList.innerHTML = "";
-
-    snapshot.forEach((doc) => {
-        const item = doc.data();
-        commentsList.innerHTML += `
+            snapshot.forEach((doc) => {
+                const item = doc.data();
+                commentsList.innerHTML += `
             <div class="comment-item">
                 <strong>${item.name}</strong><br>
                 <span>${item.comment}</span>
             </div>
         `;
-    });
-});
+            });
+        });
 
-</script>
+    </script>
 
 
 
