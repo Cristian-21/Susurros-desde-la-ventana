@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pm1.css">
     <link rel="stylesheet" href="colores.css">
+    <link rel="stylesheet" href="comentarios.css">
+    <link rel="stylesheet" href="comentarios2.css">
     <title>Depresión</title>
 </head>
 
@@ -22,9 +24,10 @@
     <nav>
         <a href="index.html">Inicio</a>
         <div class="dropdown">
-            <a href="#" class="dropbtn">Episodios</a>
+            <a href="#" class="dropbtn">Textos</a>
             <div class="dropdown-content">
                 <a href="ep1.html">Esperanza y Sentimiento</a>
+                
             </div>
         </div>
         <div class="dropdown">
@@ -37,6 +40,7 @@
     </nav>
 
     <div class="content">
+        <hr>
         <h2> Capítulo II: Amiga depresión </h2>
 
         <p> Aunque, como dije anteriormente, este año ha ido mejorando, no todo siempre fue así. </p>
@@ -49,10 +53,10 @@
         <p> Año tras año, ¿cuántos pasaron sintiéndome así? </p>
         <p> No lo sé; fueron tantos que ya no puedo recordarlos. </p>
         <p> Noches en las que solo pensaba en abrir los ojos al día siguiente y ya ser un anciano. </p>
-       <p> Las veces que miraba al cielo con anhelo, rogando que mi vida se acelerara,
-        rogando cambiar de lugar con los que ya no están —con mi hermano—,
-        rogando que, en un parpadeo, los amaneceres pasarán uno tras otro
-        más rápido que la velocidad de la luz. </p>
+        <p> Las veces que miraba al cielo con anhelo, rogando que mi vida se acelerara,
+            rogando cambiar de lugar con los que ya no están —con mi hermano—,
+            rogando que, en un parpadeo, los amaneceres pasarán uno tras otro
+            más rápido que la velocidad de la luz. </p>
         <p> Y un día me vi sumergido en un mar de dolor, de sombra y de angustia infinita. </p>
         <p> No veía más que ese mar a mi alrededor, solo eso. </p>
         <p> No había muelles, ni orillas, ni islas; nada de donde pudiera sostenerme. </p>
@@ -105,10 +109,11 @@
             en un ciclo sin remedio:
             noches infinitas sin estrellas,
             amaneceres sin sol,
-        <p> ojos que ya no miraban más allá. </p>
-        <p> Así era la depresión —aunque no sé si merece ese nombre—,
-            pero estaba. </p>
-        <p> Estaba cuando me sudaban las manos,
+            ojos que ya no miraban más allá. </p>
+        <p> Así era la depresión —aunque no sé si merece ese nombre—,pero era ella pidiendole ayuda a la ansiedad para
+            asi unirse y
+            romperme en pedazos, y claro que lo lograban. Ahi estaban.</p>
+        <p> Cuando me sudaban las manos,
             cuando el pecho ardía,
             cuando la respiración se quebraba
             y mi mente era un enjambre de voces,
@@ -119,7 +124,7 @@
             Y sí, muchas veces pensé en saltar. </p>
         <p> Pero no lo hice. </p>
         <p> Quizás, en lo más profundo,
-            una chispa sabía que ese no era el camino.
+            sabía que ese no era el camino.
             Entre todas las voces,
             había una —una sola—
             que me decía: “respira… sé fuerte”. </p>
@@ -149,24 +154,125 @@
             y nadie que no haya vivido esto
             puede imaginar lo que cuesta respirar dentro de un corazón cansado. </p>
 
+        <p>
+            Hay personas a las que siempre les voy a estar agradecido por este avance. Personas específicas que, por más
+            que la vida cambie, van a seguir viviendo en mi corazón. Nada ni nadie me las va a quitar; ni siquiera la
+            distancia física. </p>
+
+        <p>Hoy todavía tengo recaídas, y está bien. Es normal. </p>
+        <p> No tenés que sentirte mal con vos mismo —o con vos
+            misma— por tener uno o dos días de baja energía cuando venís de una buena racha. No significa que estés
+            retrocediendo. No es un fracaso. Simplemente todavía estás aprendiendo a habitarte, a vivir con un poco más
+            de calma, a sostenerte y a respirar cuando la sombra vuelve a tocar la puerta.
+
+            Todo tiene su proceso, y lo estás haciendo bien. Más de lo que creés. </p>
+
+        <p> Si esta lectura te tocó o te dejó algo, dejá un comentario. Compartí, si querés, una parte de tu historia. Y
+            seguí leyendo el resto de los capítulos de mi historia resumida.
+        </p>
+
     </div>
-    
+
     <nav id="mod" class="modo-claro">
         <ul class="capitulos-1">
+             <li><a href="habitaelvacio.html">Donde habita el vacío</a></li>
             <li><a href="depresion.html">Depresión</a></li>
-            <li><a href="#">Entre palabras</a></li>
-            <li><a href="#">Oscuridad</a></li>
+            <li><a href="entrepalabras.html">Entre palabras</a></li>
+            <li><a href="oscuridadyluz.html">Oscuridad</a></li>
         </ul>
     </nav>
+    <!-- CONTENEDOR DE COMENTARIOS -->
+    <div class="comments-container">
+        <h3>Deja tu comentario</h3>
 
+        <form id="commentForm">
+            <input type="text" id="username" placeholder="Tu nombre o alias" required>
+            <textarea id="comment" placeholder="Escribe tu comentario aquí..." required></textarea>
+            <button type="submit" id="submitComment">Enviar</button>
+        </form>
+
+        <h4>Comentarios</h4>
+        <div id="commentsList"></div>
+    </div>
     <footer>
         Creado por - CR
     </footer>
     <script>
-function toggleTheme() {
-document.body.classList.toggle('light-mode');
-}
-</script>
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+        }
+    </script>
+    <script type="module">
+
+        // Importar Firebase desde CDN (ESTO SÍ FUNCIONA EN VERCEL)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Tu config exacta
+        const firebaseConfig = {
+            apiKey: "AIzaSyCrcCEgRb2K17TQq2LoEVJhPayHLjF3S_k",
+            authDomain: "susurros-desde-la-ventana.firebaseapp.com",
+            projectId: "susurros-desde-la-ventana",
+            storageBucket: "susurros-desde-la-ventana.firebasestorage.app",
+            messagingSenderId: "56714635794",
+            appId: "1:56714635794:web:474e3c63dfa5dfbc5b06cb",
+            measurementId: "G-NLLJYW55ZR"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 👇 CORREGIDO: esta es tu colección real
+        const commentsRef = collection(db, "ep1");
+
+        // FORMULARIO
+        const form = document.getElementById("commentForm");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById("username").value.trim();
+            const comment = document.getElementById("comment").value.trim();
+
+            if (!name || !comment) return alert("Completa todos los campos.");
+
+            try {
+                await addDoc(commentsRef, {
+                    name,
+                    comment,
+                    time: serverTimestamp()
+                });
+
+                form.reset();
+
+            } catch (error) {
+                console.error("Error guardando comentario: ", error);
+            }
+        });
+
+        // LISTAR COMENTARIOS EN TIEMPO REAL
+        const commentsList = document.getElementById("commentsList");
+
+        const q = query(commentsRef, orderBy("time", "desc"));
+
+        onSnapshot(q, (snapshot) => {
+            commentsList.innerHTML = "";
+
+            snapshot.forEach((doc) => {
+                const item = doc.data();
+                commentsList.innerHTML += `
+            <div class="comment-item">
+                <strong>${item.name}</strong><br>
+                <span>${item.comment}</span>
+            </div>
+        `;
+            });
+        });
+
+    </script>
+
 </body>
 
 </html>
